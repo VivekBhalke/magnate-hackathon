@@ -21,9 +21,8 @@ const handleFileUpload = async (files) => {
               },
           });
           console.log("File uploaded successfully:", response.data);
-          const generatedText = response.data.text
-          const cleanText = generatedText.replace(/\n/g, '`');
-          navigate("/dashboard/summary", { state: { text: cleanText } });
+          const generatedText = response.data.text;
+          navigate("/dashboard/summary", { state: { text: generatedText } });
         } catch (error) {
           console.error("Error uploading file:", error);
       }
