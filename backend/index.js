@@ -5,7 +5,7 @@ import connectDB from './conect.js';
 import userRoutes from "./routes/userRoutes.js"
 import uploadRoutes from "./routes/uploadRoutes.js";
 import path from 'path';
-
+import twilioRoutes from "./routes/twilioRoutes.js"
 dotenv.config();
 
 const app = express();
@@ -24,6 +24,8 @@ app.get('/', (req, res) => {
 
 app.use("/api/user" , userRoutes );
 app.use("/api/upload" , uploadRoutes );
+app.use("/api/twilio", twilioRoutes);
+
 connectDB()
 
 app.listen(PORT, () => {
