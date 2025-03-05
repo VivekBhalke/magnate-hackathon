@@ -1,32 +1,17 @@
-import { SignOutButton, useUser,useAuth } from "@clerk/clerk-react"
 import { useState } from "react"
-import axios from "axios"
-const UploadPage = () => {
-    const { user } = useUser()
-    console.log(user)
+import  { FileUpload } from "@/components/ui/file-upload"
 
-    const { getToken } = useAuth();
-    const [data, setData] = useState("");
-  
-    // const fetchProtectedData = async () => {
-    //   const token = await getToken();
-    //   console.log(token)
-    //   const response = await axios.post("http://localhost:3000/api/upload/protected", {
-    //     headers: { Authorization: `Bearer ${token}` },
-    //   });
-  
-    //   // setData(result.message);
-    //   console.log(response.data)
-    // };
+const Upload = () => {
+    const [files, setFiles] = useState([]);
+    const handleFileUpload = (files) => {
+      setFiles(files)
+      console.log(files)
+    }
     return (
-    <div>
-      <h1>Dashboard (Protected)</h1>
-      {/* <button onClick={fetchProtectedData}>Get Protected Data</button> */}
-      <p>{data}</p>
-      This is the upload page
-      <SignOutButton/>
+      <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg">
+      <FileUpload onChange={handleFileUpload} />
     </div>
   )
 }
 
-export default UploadPage
+export default Upload
