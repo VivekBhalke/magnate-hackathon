@@ -7,6 +7,7 @@ import Upload from "./upload_page"
 import Lawyers from "./lawyers_page"
 import Assistant from "./assistant_page"
 import Navbar from "../components/navbar"
+import Summary from "./view_summary"
 const Dashboard = () => {
     const data = useContext(UserDataContext)
     console.log(data.email)
@@ -23,6 +24,7 @@ const Dashboard = () => {
                                 <Route path="/" element={<Upload />} />
                                 <Route path="/lawyers" element={<Lawyers />} />
                                 <Route path="/assistant" element={<Assistant />} />
+                                <Route path="/summary" element={<Summary/>}/>
                             </Routes>
                         </div>
                     </div>

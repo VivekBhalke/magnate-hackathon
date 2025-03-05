@@ -3,13 +3,14 @@ import { Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserDataContext } from "../context/userContext";
 
+
 const AuthorizeUser = ({ children }) => {
     const { isSignedIn, isLoaded, user } = useUser();
 
     console.log(`Loaded? ${isLoaded}, Signed in? ${isSignedIn}`);
 
     if (!isLoaded) {
-        return <div>Loading...</div>; 
+        return ; 
     }
 
     if (!isSignedIn) {
