@@ -6,7 +6,7 @@ import Dashboard from './pages/dashboard.jsx'
 
 function App() {
   return (
-    <div className=''>
+    <div className='w-full flex justify-center h-full'>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/sign-in" element={<SignIn />} />
