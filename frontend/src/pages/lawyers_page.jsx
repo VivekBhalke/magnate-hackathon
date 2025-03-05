@@ -26,6 +26,7 @@ const Lawyers = () => {
 
   useEffect(() => {
     if (navigator.geolocation) {
+      console.log("reached here")
       navigator.geolocation.getCurrentPosition(async (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
