@@ -9,8 +9,7 @@ router.get('/', (req , res)=>{
     res.json({message : "router"});
 })
 
-router.post("/login" , login);
-router.post("/signup" , signup);
+router.post("/addUser" , )
 
 
 export default router;
