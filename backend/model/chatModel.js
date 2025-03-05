@@ -1,11 +1,28 @@
 import mongoose from 'mongoose';
 
 const chatSchema = new mongoose.Schema({
-    
-    
-},{timestamps:true});
+    chatId: {
+        type: Number,
+        unique: true,
+    },
+    email : {
+        type : String,
+        unique : false,
+    },
+    context: {
+        type: String,
+        required: true,
+    },
+}, { timestamps: true });
 
 
-const User = mongoose.model('User', userSchema);
+const Chat = mongoose.model('Chat', chatSchema);
 
-export default User;
+chatSchema.plugin(autoIncrement.plugin, {
+    model: 'Chat',      
+    field: 'chatId',    
+    startAt: 1,         
+    incrementBy: 1    
+});
+
+export default Chat;
