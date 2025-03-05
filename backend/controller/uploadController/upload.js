@@ -9,6 +9,7 @@ import User from "../../model/userModel.js";
 import { getDocument } from 'pdfjs-dist';
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import dotenv from "dotenv";
+import axios from "axios"
 dotenv.config();
 export default async function upload(req , res) 
 {
@@ -16,7 +17,8 @@ export default async function upload(req , res)
         if (req.file && req.body.email) 
         {
             console.log("hi");
-            
+
+
             const filePath = path.join(process.cwd(), req.file.path);
             console.log(filePath);
             
@@ -30,8 +32,10 @@ export default async function upload(req , res)
                 text += content.items.map(item => item.str).join(' ') + '\n';
             }
 
-            console.log(text)
+            console.log(text);
+
             const user = await User.findOne({email : req.body.email});
+            console.log(user);  
             if(!user)
             {
                 return res.status(404).json({message : "no email provided"});
@@ -49,10 +53,28 @@ export default async function upload(req , res)
             console.log(message);
             //call the model
             //add the response of the model to message
+            const prompt = `I have the extracted text from a legal document. Can you provide a simplified summary that highlights the main points, obligations, and key terms in plain language? Focus on making it easy to understand for someone without a legal background. Do not provide any highlitation in the reponse text. Here's the text: ${text}.`
+            const response = await axios.post(
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+                {
+                    contents: [
+                        {
+                            parts: [{ text: prompt }],
+                        },
+                    ],
+                },
+                {
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+            const generatedText =
+            response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response received";
+
+            console.log(generatedText)
             res.json({
                 message: 'PDF uploaded and processed successfully!',
                 fileUrl: `http://localhost:${process.env.PORT}/public/${req.file.filename}`,
-                textContent: text,
+                text: generatedText,
                 chatId :  chat.chatId
             });
 

@@ -11,15 +11,34 @@ export  async function getResponseFromModel(req ,res) {
             const chat = await Chat.findOne({chatId : req.body.chatId});
             //get response from model
             const prompt = `THIS IS THE CONTEXT : \n${chat.context}\nTHIS IS THE QUESTION\n${message}}`
-            const response = await axios.post(`${FAST_URL}/getResponse` , {
-                prompt : prompt , 
-                message : message ,
-                context : chat.context
-            });
+            // const response = await axios.post(`${FAST_URL}/getResponse` , {
+            //     prompt : prompt , 
+            //     message : message ,
+            //     context : chat.context
+            // });
+            console.log(prompt)
+            const response = await axios.post(
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+                {
+                    contents: [
+                        {
+                            parts: [{ text: prompt }],
+                        },
+                    ],
+                },
+                {
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+
+
+            const generatedText =
+            response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response received";
+
             console.log(response.data);
             const messageReceived = await Message.create({chatId : req.body.chatId , sender : 'bot' , message : response.data });
             return res.json({
-                messageFomBot : response.data
+                messageFomBot : generatedText
             });
 
         }
