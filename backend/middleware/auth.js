@@ -1,10 +1,11 @@
 // authMiddleware.js
 // const clerk = require("./clerkConfig");
-import clerk from "../clerk.js"
-async function authMiddleware(req, res, next) {
+
+import {clerk} from "../clerk.js"
+export const authMiddleware = async (req, res, next) =>{
   try {
     const token = req.headers.authorization?.split("Bearer ")[1];
-
+    console.log(token)
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
@@ -16,6 +17,7 @@ async function authMiddleware(req, res, next) {
     }
 
     const user = await clerk.users.getUser(session.userId);
+    console.log(user)
     req.user = user; 
     next();
   } catch (error) {
@@ -24,4 +26,4 @@ async function authMiddleware(req, res, next) {
   }
 }
 
-module.exports = authMiddleware;
+

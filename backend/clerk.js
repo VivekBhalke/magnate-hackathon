@@ -1,8 +1,9 @@
 
-import {Clerk} from "@clerk/clerk-sdk-node";
-
-const clerk = new Clerk({
-  apiKey: process.env.CLERK_API_KEY, 
+import {clerkClient} from "@clerk/clerk-sdk-node";
+import dotenv from "dotenv"
+dotenv.config();
+export const clerk = new clerkClient({
+  apiKey: process.env.CLERK_SECRET_KEY, 
 });
 
-module.exports = clerk;
+
