@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const messageSchema = new mongoose.Schema({
     chatId : {
-        type : Number,
+        type : String,
         unique : false,
     },
     message : {

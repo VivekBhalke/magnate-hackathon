@@ -8,7 +8,8 @@ import User from "../../model/userModel.js";
 // import pdfjsLib from 'pdfjs-dist/legacy/build/pdf.js';
 import { getDocument } from 'pdfjs-dist';
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
-
+import dotenv from "dotenv";
+dotenv.config();
 export default async function upload(req , res) 
 {
     try {
@@ -30,14 +31,14 @@ export default async function upload(req , res)
             }
 
             console.log(text)
-            const user = await User.findOne({email : email});
+            const user = await User.findOne({email : req.body.email});
             if(!user)
             {
                 return res.status(404).json({message : "no email provided"});
             }
             const chat = await Chat.create({
                 email : req.body.email,
-                context : data.text
+                context : text
             });
             const message = await Message.create({
                 chatId : chat.chatId,
@@ -50,8 +51,8 @@ export default async function upload(req , res)
             //add the response of the model to message
             res.json({
                 message: 'PDF uploaded and processed successfully!',
-                fileUrl: `http://localhost:${PORT}/public/${req.file.filename}`,
-                textContent: data.text ,
+                fileUrl: `http://localhost:${process.env.PORT}/public/${req.file.filename}`,
+                textContent: text,
                 chatId :  chat.chatId
             });
 
