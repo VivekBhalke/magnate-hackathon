@@ -1,21 +1,35 @@
 import express from "express";
-import pdfParse from 'pdf-parse';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import Chat from "../../model/chatModel.js";
-import { User } from "@clerk/express";
 import Message from "../../model/messageModel.js";
+import User from "../../model/userModel.js";
+// import pdfjsLib from 'pdfjs-dist/legacy/build/pdf.js';
+import { getDocument } from 'pdfjs-dist';
+import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
+
 export default async function upload(req , res) 
 {
     try {
         if (req.file && req.body.email) 
         {
-            const filePath = path.join(process.cwd(), req.file.path);
-            const dataBuffer = fs.readFileSync(filePath);
-
-            const data = await pdfParse(dataBuffer);
+            console.log("hi");
             
+            const filePath = path.join(process.cwd(), req.file.path);
+            console.log(filePath);
+            
+            const dataBuffer = new Uint8Array(fs.readFileSync(filePath));
+            const pdf = await pdfjsLib.getDocument({ data: dataBuffer }).promise;
+            
+            let text = '';
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                text += content.items.map(item => item.str).join(' ') + '\n';
+            }
+
+            console.log(text)
             const user = await User.findOne({email : email});
             if(!user)
             {

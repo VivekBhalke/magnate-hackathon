@@ -1,10 +1,8 @@
 import mongoose from 'mongoose';
+import { v4 as uuidv4 } from "uuid";
 
 const chatSchema = new mongoose.Schema({
-    chatId: {
-        type: Number,
-        unique: true,
-    },
+    chatId: { type: String, default: uuidv4, unique: true },
     email : {
         type : String,
         unique : false,
@@ -18,11 +16,11 @@ const chatSchema = new mongoose.Schema({
 
 const Chat = mongoose.model('Chat', chatSchema);
 
-chatSchema.plugin(autoIncrement.plugin, {
-    model: 'Chat',      
-    field: 'chatId',    
-    startAt: 1,         
-    incrementBy: 1    
-});
+// chatSchema.plugin(autoIncrement.plugin, {
+//     model: 'Chat',      
+//     field: 'chatId',    
+//     startAt: 1,         
+//     incrementBy: 1    
+// });
 
 export default Chat;

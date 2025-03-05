@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
+import connectDB from './conect.js';
 import userRoutes from "./routes/uploadRoutes.js"
 import uploadRoutes from "./routes/uploadRoutes.js";
+import path from 'path';
 
 dotenv.config();
 
@@ -23,7 +24,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/user" , userRoutes );
 app.use("/api/upload" , uploadRoutes );
-
+connectDB()
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

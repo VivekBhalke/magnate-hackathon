@@ -1,5 +1,5 @@
 import express from 'express';
-import upload from '../controller/uploadController/upload';
+import upload from '../controller/uploadController/upload.js';
 import { requireAuth } from "@clerk/express";
 import multer from 'multer';
 import path from 'path';
