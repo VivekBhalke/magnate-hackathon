@@ -20,7 +20,7 @@ router.post("/make-call", async (req, res) => {
         const sms = await client.messages.create({
             body: "appointement booked",
             from: process.env.TWILIO_PHONE_NUMBER,
-            to: to,  // Example: "+917741989282"
+            to: 78028844627,  // Example: "+917741989282"
         })
 
         res.json({ message: "Call initiated", callSid: sms.sid });
