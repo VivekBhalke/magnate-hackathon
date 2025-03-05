@@ -17,7 +17,8 @@ export default async function upload(req , res)
         if (req.file && req.body.email) 
         {
             console.log("hi");
-            
+
+
             const filePath = path.join(process.cwd(), req.file.path);
             console.log(filePath);
             
@@ -31,8 +32,10 @@ export default async function upload(req , res)
                 text += content.items.map(item => item.str).join(' ') + '\n';
             }
 
-            console.log(text)
+            console.log(text);
+
             const user = await User.findOne({email : req.body.email});
+            console.log(user);  
             if(!user)
             {
                 return res.status(404).json({message : "no email provided"});
@@ -50,7 +53,7 @@ export default async function upload(req , res)
             console.log(message);
             //call the model
             //add the response of the model to message
-            const prompt = `I have the extracted text from a legal document. Can you provide a simplified summary that highlights the main points, obligations, and key terms in plain language? Focus on making it easy to understand for someone without a legal background. Here’s the text: ${text}.`
+            const prompt = `I have the extracted text from a legal document. Can you provide a simplified summary that highlights the main points, obligations, and key terms in plain language? Focus on making it easy to understand for someone without a legal background. Do not provide any highlitation in the reponse text. Here's the text: ${text}.`
             const response = await axios.post(
                 `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
                 {

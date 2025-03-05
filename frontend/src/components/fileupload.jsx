@@ -1,20 +1,18 @@
-"use client";
 import React, { useContext, useState } from "react";
 import { FileUpload } from "@/components/ui/file-upload";
 import { UserDataContext } from "../context/userContext";
-
+import axios from "axios"
 export function FileUploadDemo() {
   const [files, setFiles] = useState([]);
-  
+  const user = useContext(UserDataContext);
 const handleFileUpload = async (files) => {
   if (files && files[0] ) {  // Check if file and email are provided
       const formData = new FormData();
       formData.append("pdf", files[0]);          
-      const user = useContext(UserDataContext);
-      formData.append("email", user);           // Append email
+      formData.append("email", user.email);           // Append email
 
       try {
-          const response = await axios.post("http://localhost:5000/api/upload", formData, {
+          const response = await axios.post("http://localhost:3000/api/upload", formData, {
               headers: {
                   "Content-Type": "multipart/form-data",  // Set content type for form data
               },
