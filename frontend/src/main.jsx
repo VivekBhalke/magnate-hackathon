@@ -4,8 +4,10 @@ import App from './App.jsx'
 import './index.css'
 import { ClerkProvider } from '@clerk/clerk-react'
 import { BrowserRouter } from 'react-router-dom'
+import { dark } from '@clerk/themes'
+import { UserDataProvider } from './context/userContext.jsx'
 
-// Import your Publishable Key
+
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 if (!PUBLISHABLE_KEY) {
@@ -14,10 +16,18 @@ if (!PUBLISHABLE_KEY) {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark
+      }}
+      publishableKey={PUBLISHABLE_KEY}
+      afterSignOutUrl="/">
       <BrowserRouter>
-        <App />
+        <UserDataProvider>
+          <App />
+        </UserDataProvider>
       </BrowserRouter>
     </ClerkProvider>
   </React.StrictMode>,
 )
+
