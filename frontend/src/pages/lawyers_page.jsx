@@ -8,12 +8,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
+import axios from "axios";
 const Lawyers = () => {
   const [lawyers, setLawyers] = useState([]);
 
+  const handleAppointment = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/twilio/make-call" , {
+        to : +917028844627
+      });
+      alert(`Appointment Done!!`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     if (navigator.geolocation) {
+      console.log("reached here")
       navigator.geolocation.getCurrentPosition(async (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
@@ -46,7 +58,7 @@ const Lawyers = () => {
                 </CardDescription>
               </CardContent>
               <CardFooter>
-                <Button>Book Appointment</Button>
+                <Button onClick={handleAppointment}  >Book Appointment</Button>
               </CardFooter>
             </Card>
           ))
