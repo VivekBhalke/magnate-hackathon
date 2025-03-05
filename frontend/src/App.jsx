@@ -11,9 +11,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage/>} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/upload" element={<AuthorizeUser>
+        <Route path="/upload" element={
           <UploadPage />
-        </AuthorizeUser>} />
+        } />
       </Routes>
     </>
   )
