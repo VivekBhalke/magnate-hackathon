@@ -30,7 +30,7 @@ export default async function upload(req , res)
             }
 
             console.log(text)
-            const user = await User.findOne({email : email});
+            const user = await User.findOne({email : req.body.email});
             if(!user)
             {
                 return res.status(404).json({message : "no email provided"});
