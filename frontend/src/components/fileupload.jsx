@@ -2,7 +2,10 @@ import React, { useContext, useState } from "react";
 import { FileUpload } from "@/components/ui/file-upload";
 import { UserDataContext } from "../context/userContext";
 import axios from "axios"
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export function FileUploadDemo() {
+  let navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const user = useContext(UserDataContext);
 const handleFileUpload = async (files) => {
@@ -18,7 +21,10 @@ const handleFileUpload = async (files) => {
               },
           });
           console.log("File uploaded successfully:", response.data);
-      } catch (error) {
+          const generatedText = response.data.text
+          const cleanText = generatedText.replace(/\n/g, '`');
+          navigate("/dashboard/summary", { state: { text: cleanText } });
+        } catch (error) {
           console.error("Error uploading file:", error);
       }
   } else {
