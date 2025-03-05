@@ -57,11 +57,11 @@ export function AppSidebar() {
 
 
   return (
-    <Sidebar>
+    <Sidebar className="fixed left-0 top-0 h-screen w-64 bg-gray-900 text-white">
       <SidebarContent>
-        {/* User Button */}
+        {/* User Profile */}
         <SidebarGroup>
-          <SidebarGroupLabel className="flex">
+          <SidebarGroupLabel className="flex justify-center py-4">
             <UserButton />
           </SidebarGroupLabel>
         </SidebarGroup>
