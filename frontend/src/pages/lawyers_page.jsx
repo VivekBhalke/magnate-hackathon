@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-
 const Lawyers = () => {
   const [lawyers, setLawyers] = useState([]);
 
